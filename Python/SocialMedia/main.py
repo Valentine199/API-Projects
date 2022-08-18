@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi import Body
 
 #  create the instance
 app = FastAPI()
@@ -10,4 +11,15 @@ app = FastAPI()
 # async we warn the methode that we do an asynchronous call
 async def root():
     # return a JSON
-    return {"message": "Welcome!!"}
+    return {"message": "Hello World"}
+
+
+@app.get("/posts")
+def get_posts():
+    return {"data": "yOUR POST"}
+
+
+@app.post("/createposts")
+def create_posts(payLoad: dict = Body(...)):
+    print(payLoad)
+    return {"message": "Post created"}
