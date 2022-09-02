@@ -1,5 +1,8 @@
 ﻿using Catalog.Entities;
 
+using Microsoft.Extensions.Configuration;
+
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 using System;
@@ -11,13 +14,20 @@ namespace Catalog.Repositories
 {
     public class MongoDbItemsRepository : IItemsRepository
     {
+        private readonly IConfiguration configuration;
+
         private const string databaseName = "catalog";
         private const string collectionName = "items";
         private readonly IMongoCollection<Item> itemsCollection;
+        private readonly FilterDefinitionBuilder<Item> filterBuilder = Builders<Item>.Filter;
 
-        public MongoDbItemsRepository(IMongoClient mongoClient)
+        public MongoDbItemsRepository(IConfiguration config)
         {
-            IMongoDatabase database = mongoClient.GetDatabase(databaseName);
+            configuration = config; // Store the config
+            var connString = configuration.GetConnectionString("MongoDB"); // from the config store the relevant connection id
+            var client = new MongoClient(connString); // Reach out to the client via the String
+
+            IMongoDatabase database = client.GetDatabase(databaseName); 
             itemsCollection = database.GetCollection<Item>(collectionName);
         }
 
@@ -28,22 +38,25 @@ namespace Catalog.Repositories
 
         public void DeleteItem(Guid id)
         {
-            throw new NotImplementedException();
+            var filter = filterBuilder.Eq(item => item.Id, id);
+            itemsCollection.DeleteOne(filter);
         }
 
         public Item GetItem(Guid id)
         {
-            throw new NotImplementedException();
+            var filter = filterBuilder.Eq(item => item.Id, id);
+            return itemsCollection.Find(filter).SingleOrDefault();
         }
 
         public IEnumerable<Item> GetItems()
         {
-            throw new NotImplementedException();
+            return itemsCollection.Find(new BsonDocument()).ToList();
         }
 
         public void UpdateItem(Item item)
         {
-            throw new NotImplementedException();
+            var filter = filterBuilder.Eq(existingItem => existingItem.Id, item.Id);
+            itemsCollection.ReplaceOne(filter, item);
         }
     }
 }

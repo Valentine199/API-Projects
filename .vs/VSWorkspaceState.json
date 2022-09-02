@@ -2,8 +2,12 @@
   "ExpandedNodes": [
     "",
     "\\Catalog",
-    "\\Catalog\\Catalog"
+    "\\Catalog\\Catalog",
+    "\\Catalog\\Catalog\\Controllers",
+    "\\Catalog\\Catalog\\Dtos",
+    "\\Catalog\\Catalog\\Entities",
+    "\\Catalog\\Catalog\\Repositories"
   ],
-  "SelectedNode": "\\Catalog\\Catalog.sln",
+  "SelectedNode": "\\Catalog\\Catalog\\Controllers\\ItemsController.cs",
   "PreviewInSolutionExplorer": false
 }
