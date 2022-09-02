@@ -8,6 +8,6 @@
     "\\Catalog\\Catalog\\Entities",
     "\\Catalog\\Catalog\\Repositories"
   ],
-  "SelectedNode": "\\Catalog\\Catalog\\Controllers\\ItemsController.cs",
+  "SelectedNode": "\\Catalog\\Catalog\\Startup.cs",
   "PreviewInSolutionExplorer": false
 }

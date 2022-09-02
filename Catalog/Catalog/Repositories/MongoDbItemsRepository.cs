@@ -31,29 +31,29 @@ namespace Catalog.Repositories
             itemsCollection = database.GetCollection<Item>(collectionName);
         }
 
-        public void CreateItem(Item item)
+        public async Task CreateItemAsync(Item item)
         {
-            itemsCollection.InsertOne(item);
+           await itemsCollection.InsertOneAsync(item);
         }
 
-        public void DeleteItem(Guid id)
+        public async void DeleteItemAsync(Guid id)
         {
             var filter = filterBuilder.Eq(item => item.Id, id);
-            itemsCollection.DeleteOne(filter);
+            await itemsCollection.DeleteOneAsync(filter);
         }
 
-        public Item GetItem(Guid id)
+        public Item GetItemAsync(Guid id)
         {
             var filter = filterBuilder.Eq(item => item.Id, id);
             return itemsCollection.Find(filter).SingleOrDefault();
         }
 
-        public IEnumerable<Item> GetItems()
+        public IEnumerable<Item> GetItemsAsync()
         {
             return itemsCollection.Find(new BsonDocument()).ToList();
         }
 
-        public void UpdateItem(Item item)
+        public void UpdateItemAsync(Item item)
         {
             var filter = filterBuilder.Eq(existingItem => existingItem.Id, item.Id);
             itemsCollection.ReplaceOne(filter, item);
